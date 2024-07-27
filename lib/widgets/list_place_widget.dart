@@ -99,6 +99,14 @@ class _ListPlaceWidgetState extends State<ListPlaceWidget> {
                                     color: Color(0xff6C6C6C),
                                   ),
                                 ),
+                                Text(
+                                  "Ambience: Cozy and Lively",
+                                  style: TextStyle(
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(255, 47, 116, 78),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
