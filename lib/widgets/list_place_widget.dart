@@ -1,5 +1,5 @@
+import 'package:destinationexplorer/models/mslocation_model.dart';
 import 'package:flutter/material.dart';
-
 import '../pages/place_detail_card_component.dart';
 
 class ListPlaceWidget extends StatefulWidget {
@@ -10,7 +10,26 @@ class ListPlaceWidget extends StatefulWidget {
 }
 
 class _ListPlaceWidgetState extends State<ListPlaceWidget> {
-  void _showCustomBottomSheet(BuildContext context) {
+  List<MsLocation> locationData = [
+    MsLocation(
+      ambience: "Cozy",
+      description: "A nice cozy place.",
+      distance: 1.2,
+      location: "123 Main Street",
+      name: "Cozy Cafe",
+      similarities: 0.9,
+    ),
+    MsLocation(
+      ambience: "Modern",
+      description: "A modern and stylish place.",
+      distance: 3.5,
+      location: "456 Elm Street",
+      name: "Modern Eatery",
+      similarities: 0.85,
+    ),
+  ];
+
+  void _showCustomBottomSheet(BuildContext context, String name, String location) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -28,7 +47,10 @@ class _ListPlaceWidgetState extends State<ListPlaceWidget> {
               ),
               child: SingleChildScrollView(
                 controller: scrollController,
-                child: KopiTukuCard(),
+                child: PlaceDetailCard(
+                  name: name,
+                  location: location,
+                ),
               ),
             );
           },
@@ -44,12 +66,13 @@ class _ListPlaceWidgetState extends State<ListPlaceWidget> {
       child: ListView.builder(
         physics: const AlwaysScrollableScrollPhysics(),
         shrinkWrap: true,
-        itemCount: 5,
+        itemCount: locationData.length,
         itemBuilder: (context, index) {
+          final location = locationData[index];
           return GestureDetector(
-            onTap: () => _showCustomBottomSheet(context),
+            onTap: () => _showCustomBottomSheet(context, location.name, location.location),
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 0.0),
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: Card(
                 elevation: 1.0,
                 shape: RoundedRectangleBorder(
@@ -61,11 +84,11 @@ class _ListPlaceWidgetState extends State<ListPlaceWidget> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Row(
+                      Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(Icons.location_on, size: 30, color: Color(0xff02C057)),
-                          SizedBox(width: 10),
+                          const Icon(Icons.location_on, size: 30, color: Color(0xff02C057)),
+                          const SizedBox(width: 10),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,17 +96,17 @@ class _ListPlaceWidgetState extends State<ListPlaceWidget> {
                                 Row(
                                   children: [
                                     Text(
-                                      "Kopi Tuku",
-                                      style: TextStyle(
+                                      location.name,
+                                      style: const TextStyle(
                                         fontSize: 18.0,
                                         fontWeight: FontWeight.w600,
                                         color: Color(0xff1B1B1B),
                                       ),
                                     ),
-                                    Spacer(),
+                                    const Spacer(),
                                     Text(
-                                      "3 km away",
-                                      style: TextStyle(
+                                      "${location.distance.toStringAsFixed(1)} km away",
+                                      style: const TextStyle(
                                         fontSize: 15.0,
                                         fontWeight: FontWeight.bold,
                                         color: Color(0xff02C057),
@@ -91,17 +114,17 @@ class _ListPlaceWidgetState extends State<ListPlaceWidget> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 5.0),
+                                const SizedBox(height: 5.0),
                                 Text(
-                                  "Jl. Jalan No. 123",
-                                  style: TextStyle(
+                                  location.location,
+                                  style: const TextStyle(
                                     fontSize: 14.0,
                                     color: Color(0xff6C6C6C),
                                   ),
                                 ),
                                 Text(
-                                  "Ambience: Cozy and Lively",
-                                  style: TextStyle(
+                                  "Ambience: ${location.ambience}",
+                                  style: const TextStyle(
                                     fontSize: 14.0,
                                     fontWeight: FontWeight.bold,
                                     color: Color.fromARGB(255, 47, 116, 78),

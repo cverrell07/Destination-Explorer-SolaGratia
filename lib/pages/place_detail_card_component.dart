@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class KopiTukuCard extends StatelessWidget {
-  const KopiTukuCard({Key? key}) : super(key: key);
+class PlaceDetailCard extends StatelessWidget {
+  final String? name;
+  final String? location;
+
+  const PlaceDetailCard({
+    Key? key,
+    required this.name,
+    required this.location,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -57,14 +64,14 @@ class KopiTukuCard extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 8),
-                const Text(
-                  'Kopi Tuku',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                Text(
+                  name ?? "",
+                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 4),
-                const Text(
-                  'Jl. Kemanggisan Raya No. 11, Kemanggisan,\nJakarta Barat',
-                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                Text(
+                  location ?? "",
+                  style: const TextStyle(fontSize: 12, color: Colors.grey),
                 ),
                 const SizedBox(height: 8),
                 const Text(
