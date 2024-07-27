@@ -12,9 +12,6 @@ Enhance the GrabRide and GrabCar experience by integrating a new feature called 
 - [@Raymond Akkasel](https://www.github.com/akkasel)
 
 
-## Objective
-
-Enhance the GrabRide and GrabCar experience by integrating a new feature called Destination Explorer. This feature will allow users to describe their desired destination using natural language, specifying the ambiance or anything they are looking for. The system will then connect users to Grab Transport for convenient travel to their chosen location.
 ## Key Features
 
 - **Natural Language Input**: Users can describe their destination with any preferences in their own words, making the search more intuitive and user-friendly.
