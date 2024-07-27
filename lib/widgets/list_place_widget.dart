@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../pages/place_detail_card_component.dart';
+
 class ListPlaceWidget extends StatefulWidget {
   const ListPlaceWidget({super.key});
 
@@ -8,16 +10,45 @@ class ListPlaceWidget extends StatefulWidget {
 }
 
 class _ListPlaceWidgetState extends State<ListPlaceWidget> {
+  void _showCustomBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext context) {
+        return DraggableScrollableSheet(
+          initialChildSize: 0.5,
+          minChildSize: 0.25,
+          maxChildSize: 0.75,
+          builder: (BuildContext context, ScrollController scrollController) {
+            return Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
+              ),
+              child: SingleChildScrollView(
+                controller: scrollController,
+                child: KopiTukuCard(),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: ListView.builder(
-          physics: const AlwaysScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: 5,
-          itemBuilder: (context, index) {
-            return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: ListView.builder(
+        physics: const AlwaysScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: 5,
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            onTap: () => _showCustomBottomSheet(context),
+            child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 0.0),
               child: Card(
                 elevation: 1.0,
@@ -128,9 +159,10 @@ class _ListPlaceWidgetState extends State<ListPlaceWidget> {
                   ),
                 ),
               ),
-            );
-          },
-        ),
-      );
+            ),
+          );
+        },
+      ),
+    );
   }
 }
