@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class KopiTukuCard extends StatelessWidget {
   const KopiTukuCard({Key? key}) : super(key: key);
@@ -6,6 +7,7 @@ class KopiTukuCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.white,
       margin: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -15,7 +17,7 @@ class KopiTukuCard extends StatelessWidget {
             child: Stack(
               children: [
                 Image.asset(
-                  'assets/images/GrabAI_Logo.png',
+                  'assets/images/cafe.png',
                   height: 200,
                   width: double.infinity,
                   fit: BoxFit.cover,
@@ -92,4 +94,3 @@ class KopiTukuCard extends StatelessWidget {
     );
   }
 }
-
