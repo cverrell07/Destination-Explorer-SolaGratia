@@ -66,6 +66,9 @@ flutter:
     - assets/images/GrabAI_Logo.png
     - assets/images/Rina_icon.png
     - assets/images/cafe.png
+    - assets/images/icon-transport.png
+    - assets/images/Rina_suggestion_image.png
+    - assets/icons/location_icon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

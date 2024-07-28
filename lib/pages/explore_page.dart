@@ -40,14 +40,19 @@ class _ExplorePageState extends State<ExplorePage> {
                   width: 300,
                 ),
               ),
-              const Positioned(
+              Positioned(
                 top: 80,
                 left: 20,
                 child: Row(
                   children: [
-                    Icon(Icons.arrow_back),
-                    SizedBox(width: 10.0),
-                    Text(
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Icon(Icons.arrow_back),
+                    ),
+                    const SizedBox(width: 10.0),
+                    const Text(
                       "Explore",
                       style: TextStyle(
                         color: Color(0xff1B1B1B),
