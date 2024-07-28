@@ -27,6 +27,10 @@ Enhance the GrabRide and GrabCar experience by integrating a new feature called 
 
 **API:** Flask API
 
+## How to run?
+- **Run the API endpoint first, can be accessed at https://github.com/jesslynamanda13/destination-explorer-ai-module**
+- In this project directory, run **flutter pub get**
+- Once your emulator is ready, run **flutter run**
 
 ## Screenshots
 
