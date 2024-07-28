@@ -3,33 +3,16 @@ import 'package:flutter/material.dart';
 import '../pages/place_detail_card_component.dart';
 
 class ListPlaceWidget extends StatefulWidget {
-  const ListPlaceWidget({super.key});
+  final List<MsLocation> locationData;
+  const ListPlaceWidget({super.key, required this.locationData});
 
   @override
   State<ListPlaceWidget> createState() => _ListPlaceWidgetState();
 }
 
 class _ListPlaceWidgetState extends State<ListPlaceWidget> {
-  List<MsLocation> locationData = [
-    MsLocation(
-      ambience: "Cozy",
-      description: "A nice cozy place.",
-      distance: 1.2,
-      location: "123 Main Street",
-      name: "Cozy Cafe",
-      similarities: 0.9,
-    ),
-    MsLocation(
-      ambience: "Modern",
-      description: "A modern and stylish place.",
-      distance: 3.5,
-      location: "456 Elm Street",
-      name: "Modern Eatery",
-      similarities: 0.85,
-    ),
-  ];
-
-  void _showCustomBottomSheet(BuildContext context, String name, String location) {
+  void _showCustomBottomSheet(
+      BuildContext context, String name, String location) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -59,6 +42,14 @@ class _ListPlaceWidgetState extends State<ListPlaceWidget> {
     );
   }
 
+  String truncateText(String text, {int maxLength = 18}) {
+    if (text.length <= maxLength) {
+      return text;
+    } else {
+      return '${text.substring(0, maxLength)}...';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -66,11 +57,12 @@ class _ListPlaceWidgetState extends State<ListPlaceWidget> {
       child: ListView.builder(
         physics: const AlwaysScrollableScrollPhysics(),
         shrinkWrap: true,
-        itemCount: locationData.length,
+        itemCount: widget.locationData.length,
         itemBuilder: (context, index) {
-          final location = locationData[index];
+          final location = widget.locationData[index];
           return GestureDetector(
-            onTap: () => _showCustomBottomSheet(context, location.name, location.location),
+            onTap: () => _showCustomBottomSheet(
+                context, location.name, location.location),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: Card(
@@ -87,7 +79,8 @@ class _ListPlaceWidgetState extends State<ListPlaceWidget> {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Icon(Icons.location_on, size: 30, color: Color(0xff02C057)),
+                          const Icon(Icons.location_on,
+                              size: 30, color: Color(0xff02C057)),
                           const SizedBox(width: 10),
                           Expanded(
                             child: Column(
@@ -96,18 +89,18 @@ class _ListPlaceWidgetState extends State<ListPlaceWidget> {
                                 Row(
                                   children: [
                                     Text(
-                                      location.name,
+                                      truncateText(location.name),
                                       style: const TextStyle(
-                                        fontSize: 18.0,
+                                        fontSize: 16.0,
                                         fontWeight: FontWeight.w600,
                                         color: Color(0xff1B1B1B),
                                       ),
                                     ),
                                     const Spacer(),
                                     Text(
-                                      "${location.distance.toStringAsFixed(1)} km away",
+                                      "${(location.distance / 1000).toStringAsFixed(1)} km away",
                                       style: const TextStyle(
-                                        fontSize: 15.0,
+                                        fontSize: 12.0,
                                         fontWeight: FontWeight.bold,
                                         color: Color(0xff02C057),
                                       ),

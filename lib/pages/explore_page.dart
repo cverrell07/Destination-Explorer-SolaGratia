@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:destinationexplorer/models/mslocation_model.dart';
+import 'package:destinationexplorer/services/mslocation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:destinationexplorer/widgets/list_place_widget.dart';
 import 'package:destinationexplorer/widgets/no_data_widget.dart';
@@ -11,6 +15,44 @@ class ExplorePage extends StatefulWidget {
 
 class _ExplorePageState extends State<ExplorePage> {
   TextEditingController editingController = TextEditingController();
+  List<MsLocation> places = [];
+  bool isLoading = false;
+  Timer? debounce;
+
+  @override
+  void dispose() {
+    editingController.dispose();
+    debounce?.cancel();
+    super.dispose();
+  }
+
+  void onSearchChanged(String query) {
+    if (debounce?.isActive ?? false) debounce!.cancel();
+    debounce = Timer(const Duration(milliseconds: 500), () {
+      if (query.isNotEmpty) {
+        fetchPlaces(query);
+      }
+    });
+  }
+
+  void fetchPlaces(String query) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      List<MsLocation> fetchedPlaces = await ApiService().fetchPlaces(query);
+      setState(() {
+        places = fetchedPlaces;
+      });
+    } catch (e) {
+      print('Error fetching places: $e');
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +67,10 @@ class _ExplorePageState extends State<ExplorePage> {
                 height: 250,
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color(0xffBEEDD2), Color.fromARGB(255, 183, 199, 190)],
+                    colors: [
+                      Color(0xffBEEDD2),
+                      Color.fromARGB(255, 183, 199, 190)
+                    ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -85,7 +130,7 @@ class _ExplorePageState extends State<ExplorePage> {
                     elevation: 5,
                     borderRadius: BorderRadius.circular(10.0),
                     child: TextField(
-                      onChanged: (value) {},
+                      onChanged: onSearchChanged,
                       controller: editingController,
                       decoration: InputDecoration(
                         hintText: "Describe any destination...",
@@ -99,15 +144,18 @@ class _ExplorePageState extends State<ExplorePage> {
                         ),
                         enabledBorder: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(color: Colors.grey, width: 2.0),
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 2.0),
                         ),
                         focusedBorder: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(color: Color(0xff18723E), width: 2.0),
+                          borderSide:
+                              BorderSide(color: Color(0xff18723E), width: 2.0),
                         ),
                         filled: true,
                         fillColor: Colors.white,
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 20.0),
                         hintStyle: const TextStyle(
                             color: Colors.grey, fontWeight: FontWeight.normal),
                       ),
@@ -117,9 +165,12 @@ class _ExplorePageState extends State<ExplorePage> {
               ),
             ],
           ),
-          const Expanded(
-            // const NoDataWidget()
-            child: ListPlaceWidget(),
+          Expanded(
+            child: isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : places.isEmpty
+                    ? const NoDataWidget()
+                    : ListPlaceWidget(locationData: places),
           ),
         ],
       ),
